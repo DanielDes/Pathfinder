@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+
+    <canvas id ='gc' width="400" height="400"></canvas>
+    <script>
+
+    Player_x = Player_y = 10;//player
+    x_velocity = y_velocity = 0;//velocity
+    Grid_size= tile_count = 20;//grid size and tile count
+    Apple_x = Apple_y = 15;//apple
+    trail=[];//array with the chocks of the body, it's a stack
+    tail = 5;//counter for the number of the elements nd the body
+
+     window.onload=function()
+    {
+        canv=document.getElementById("gc");//get the canvas
+        Context = canv.getContext("2d");//get the 2d context
+        // this.setInterval(game,1000/1);//sets an interval for the execution of the function game
+    }
+
+    function game()
+    {
+    	//se incrementa en una cantidad la posicion de la cabeza
+        Player_x+=x_velocity;
+        Player_y+=y_velocity;
+
+        //codigos que permiten la transicion de la cabeza entre orillas de el background
+        if(Player_x<0) { Player_x=tile_count-1; }
+        if(Player_y<0) { Player_y=tile_count-1; }
+        if(Player_x>tile_count-1) { Player_x=0; }
+        if(Player_y>tile_count-1) { Player_y=0; }
+
+        Context.fillStyle="black";
+        Context.fillRect( 0 , 0 , canv.width , canv.height ); // crea el background
+
+        Context.fillStyle="lime";
+        Context.fillRect( trail[i].x*Grid_size , trail[i].y*Grid_size , Grid_size-2 , Grid_size-2 );
+
+    }
+    </script>
+</body>
+</html>
