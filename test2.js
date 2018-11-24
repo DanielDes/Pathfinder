@@ -51,7 +51,7 @@ const lft = 3;
 //this function muust to be in the begining of the genetic algorithm, it's just to configure
 // global variables like init position in the map and end position in the map
 
-function recognize_map(character,map)
+function recognize_map(character)
 {
     var temp_position={x=0,y=0}
     for(var row=0;row<map.length;row++)
@@ -68,14 +68,15 @@ function recognize_map(character,map)
 var init_position;
 var end__position;
 var wall_character;
-var map;
+//var map;
+
 //la funcion sirve para inicializar a la posicion inicial y final
 function init_fitness(character_init,character__end,_wall_character,_map)
 {
     init_position=recognize_map(character_init,map);
     end__position=recognize_map(character__end,map);
     wall_character=_wall_character;
-    map = _map
+    map = _map;
 }
 
 function fitness (indiv)
@@ -150,13 +151,6 @@ function fitness (indiv)
 }
 
 
-function eval_population_fitness(population,map,char_wall)
-{
-    for(var pop_index=0;pop_index<population.length;pop_index++)
-    {
-        fitness();
-    }
-}
 
 
 ////////////////////////////////////////////////////////////////////////////////////////
@@ -167,21 +161,20 @@ function eval_population_fitness(population,map,char_wall)
 
 
 
-function new_population(pop_size,chrom_size)
+function new_population(population,pop_size,chrom_size)
 {
-    var temp_pop=[];
     for(var index=0;index<pop_size;index++)
     {
-        temp_pop[index]=new_chromosome(chrom_size);
+        population[index]=new_chromosome(chrom_size);
     }
 }
 
 function new_chromosome(size)
 {
-    var temp_chromosome=[];
+    var temp_chromosome={data:[],fitness:0};
     for(var index = 0;index<size;index++)
     {
-        temp_chromosome[index]=Math.floor(256*Math.random());
+        temp_chromosome.data[index]=Math.floor(256*Math.random());
     }
     return temp_chromosome;
 }
