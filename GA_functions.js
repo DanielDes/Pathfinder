@@ -181,7 +181,7 @@ function f_crossover(population,crossover_rate)
     //crossover_rate must to be a value between 0 and 1
     //this array save the indexes of the parents selected from the population array 
     var selected_parents = [];
-
+    //we make a list of indexes for the randomly selected parents from population
     for(var index=0;index<population.length;index++)
     {
         if(Math.random()>crossover_rate)
@@ -194,13 +194,17 @@ function f_crossover(population,crossover_rate)
     for(var index=0;index+1<selected_parents.length;index+=2)
     {
         var child={data:[],fitness=0};
+        //temporal variables to save the parents, make the code more readable
         var frst_parent=population[selected_parents[index]];
         var scnd_parent=population[selected_parents[index+1]];
+        //apply the mask for copy the values from each parent
         for(var chrom_index=0;index<selected_parents.data[0].length;chrom_index++)
         {
             child.data[chrom_index]=(crossover_mask[chrom_index]?frst_parent.data[chrom_index]:scnd_parent.data[chrom_index]);
         }
+        // we avalue the cfittnes from the child
         fitness(child);
+        // we inser the child in place of the worst parent
         if(frst_parent.fitness>scnd_parent.fitness)
         { 
             if(child.fitness>scnd_parent.fitness)
@@ -210,7 +214,7 @@ function f_crossover(population,crossover_rate)
             { population[selected_parents[index]]=child; }
         }
     }
-
+    //return a new population
     return population;
 }
 
@@ -223,6 +227,8 @@ function interchange(array,n_position,m_position)
 
 function f_mutation(population,mutation_rate)
 {
+    //makes this for every chromosome
+    //the mutaiton rate must to be a nomber between 0 and 1, and be a very low value
     for(var pop_index = 0; pop_index < population.length; pop_index++)
     {
         //partial shuffle mutation
@@ -230,9 +236,11 @@ function f_mutation(population,mutation_rate)
         {
             if(Math.random()<mutation_rate)
             {
+                //interchange a random value from the chromosome with the current pointed value
                 interchange(population[pop_index].data,chrome_index,Math.floor(Math.random()*chromosome_size+1));
             }
         }
     }
+    // return a new population
     return population;
 }
