@@ -197,7 +197,7 @@ function f_crossover(population,crossover_rate)
     for(var index=0;index+1<selected_parents.length;index+=2)
     {
 
-        var child={data:[],fitness=0};
+        var child={data:[],fitness:0};
         //temporal variables to save the parents, make the code more readable
         var frst_parent=population[selected_parents[index]];
         var scnd_parent=population[selected_parents[index+1]];
