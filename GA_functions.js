@@ -1,6 +1,7 @@
 ////////////////////////////constants for the algorithm////////////////////////
 //this filter is for obtain the particular nibbles from a byte
 const filter={ 0:0x0F,1:0xF0 };
+const chromosome_size=8;
 //this constants make mor readable the algoritm for fitness
 const up_ = 0;
 const dwn = 1;
@@ -25,7 +26,8 @@ var end__position;
 var wall_character;
 var map;
 var crossover_mask=[true,true,true,true,false,false,false,false];
-
+var is_mutation_init = false;
+var chromosomes_to_mutate=0;
 
 ////////////////////////////functions for the algorithm ////////////////////
 //this function initialize a chromosome
@@ -39,7 +41,7 @@ function new_chromosome(size)
     return temp_chromosome;
 }
 //this function initialize a population using the function new_chromosome
-function new_population(population,pop_size,chrom_size)
+function f_new_population(population,pop_size,chrom_size)
 {
     for(var index=0;index<pop_size;index++)
     {
@@ -70,7 +72,7 @@ function init_fitness(character_init,character__end,_wall_character,_map)
 }
 
 //this function evalue the fitness for a particular chromosome 
-function fitness (indiv)
+function f_fitness (indiv)
 {
     var position = init_position;
     var movement;
@@ -142,7 +144,7 @@ function fitness (indiv)
     indiv.fitness=fit;
 }
 //this function makes the tournament of the population
-function selection (population)
+function f_selection (population)
 {
     var total=0;
     var total_prom=0;
@@ -173,18 +175,22 @@ function selection (population)
 }
 
 
-function crossover(population,crossover_rate)
+function f_crossover(population,crossover_rate)
 {
     //crossover_rate must to be a value between 0 and 1
+    //this array save the indexes of the parents selected from the population array 
     var selected_parents = [];
+
     for(var index=0;index<population.length;index++)
     {
         if(Math.random()>crossover_rate)
         { selected_parents[selected_parents.length]=index; }
     }
-    if(selected_parents.length%2!=0)
+
+    if(selected_parents.length%2!=0)//we ensure that we have pairs of parents
     {selected_parents[selected_parents.length]=Math.floor(Math.random*(population.length+1));}
-    for(var index=0;index<selected_parents.length;index+=2)
+
+    for(var index=0;index+1<selected_parents.length;index+=2)
     {
         var child={data:[],fitness=0};
         var frst_parent=population[selected_parents[index]];
@@ -203,9 +209,21 @@ function crossover(population,crossover_rate)
             { population[selected_parents[index]]=child; }
         }
     }
+
+    return population;
 }
 
-function mutation(population,mutation_rate)
+function f_mutation(population,mutation_rate)
 {
+    //mutation raate must to be a number between 0 and 1  
+    if(!is_mutation_init)
+    {
+        chromosomes_to_mutate = Math.floor(mutation_rate*population.length*population[0].data.length);
+    }
 
+    /*
+        code for mutate the chromosomes of the algorithm
+    */
+
+    return population;
 }
