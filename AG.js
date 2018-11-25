@@ -30,7 +30,7 @@
 ////////////////////////////////////////////////////////////////////////////////////////////////////////
 //////////////////////////////////////////////////////////////////////////////////////////////////////*/
 
-function newGA(_Selection,_Cross,_Mutation,_Init,_Fitness,_cross_rate,_mutation_rate,_population_size)
+function newGA(_Selection,_Cross,_Mutation,_Init,_Fitness,_cross_rate,_mutation_rate,_population_size,_chromosome_size)
 {
 	var _temp_GA = {};
 	_temp_GA.population={};
@@ -43,6 +43,7 @@ function newGA(_Selection,_Cross,_Mutation,_Init,_Fitness,_cross_rate,_mutation_
 	_temp_GA.Cross_rate 		= _cross_rate;
 	_temp_GA.Mutation_rate 		= _mutation_rate;
 	_temp_GA.PopulationSize 	= _population_size;
+	_temp_GA.CromosomeSize 		= _chromosome_size;
 
 	return _temp_GA;
 }
@@ -68,7 +69,7 @@ function newGA(_Selection,_Cross,_Mutation,_Init,_Fitness,_cross_rate,_mutation_
 
 function Evolve(GenAl,max_generations)
 {
-	GenAl.population.forEach(GenAl.Init);
+	GenAl.Init(GenAl.population,GenAl.PopulationSize,GenAl.CromosomeSize);
 	GenAl.population.forEach(GenAl.Fitness);
 	for(var index = 0; index<max_generations;index++)
 	{
