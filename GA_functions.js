@@ -24,6 +24,7 @@ var init_position;
 var end__position;
 var wall_character;
 var map;
+var crossover_mask=[true,true,true,true,false,false,false,false];
 
 
 ////////////////////////////functions for the algorithm ////////////////////
@@ -170,9 +171,38 @@ function selection (population)
 
     return new_population;
 }
+
+
 function crossover(population,crossover_rate)
 {
-    
+    //crossover_rate must to be a value between 0 and 1
+    var selected_parents = [];
+    for(var index=0;index<population.length;index++)
+    {
+        if(Math.random()>crossover_rate)
+        { selected_parents[selected_parents.length]=index; }
+    }
+    if(selected_parents.length%2!=0)
+    {selected_parents[selected_parents.length]=Math.floor(Math.random*(population.length+1));}
+    for(var index=0;index<selected_parents.length;index+=2)
+    {
+        var child={data:[],fitness=0};
+        var frst_parent=population[selected_parents[index]];
+        var scnd_parent=population[selected_parents[index+1]];
+        for(var chrom_index=0;index<selected_parents.data[0].length;chrom_index++)
+        {
+            child.data[chrom_index]=(crossover_mask[chrom_index]?frst_parent.data[chrom_index]:scnd_parent.data[chrom_index]);
+        }
+        fitness(child);
+        if(frst_parent.fitness>scnd_parent.fitness)
+        { 
+            if(child.fitness>scnd_parent.fitness)
+            { population[selected_parents[index+1]]=child; }
+        }else{
+            if(child.fitness>frst_parent.fitness)
+            { population[selected_parents[index]]=child; }
+        }
+    }
 }
 
 function mutation(population,mutation_rate)
