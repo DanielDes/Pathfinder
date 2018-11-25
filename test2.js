@@ -86,13 +86,13 @@ function fitness (indiv)
     var movements_count=0;
     var its_over = false;
     var fit=0;
-    for(var index = 0;index<indiv.data.length;index++)
+    for(var chrom_index = 0;chrom_index<indiv.data.length;chrom_index++)
     {
         // obtain the movements of the first nibble (F0) from the chromosome
         // movement is a vector with length 3
         if(!its_over)
         {
-            movement = posible_directions[(indiv.data[index]&filter[1])>>>4];
+            movement = posible_directions[(indiv.data[chrom_index]&filter[1])>>>4];
             for(var mov_index = 0; mov_index<movement.length;mov_index++)
             {
                 switch(movement[mov_index])
@@ -120,7 +120,7 @@ function fitness (indiv)
         if(!its_over)
         {
              //makes the same but with the second part of the nibble (0F)
-            movement = posible_directions[numero&filter[0]];
+            movement = posible_directions[indiv.data[chrom_index]&filter[0]];
             for(var mov_index = 0; mov_index<movement.length;mov_index++)
             {
                 switch(movement[mov_index])
@@ -149,9 +149,6 @@ function fitness (indiv)
     if(its_over){fit=movements_count+100;}else{fit=movements_count;}
     indiv.fitness=fit;
 }
-
-
-
 
 ////////////////////////////////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////////
