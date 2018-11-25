@@ -85,6 +85,7 @@ function f_fitness (indiv)
     {
         // obtain the movements of the first nibble (F0) from the chromosome
         // movement is a vector with length 3
+        // we follow the steps like simon says game, only if we not have a wall in the way
         if(!its_over)
         {
             movement = posible_directions[(indiv.data[chrom_index]&filter[1])>>>4];
@@ -147,19 +148,30 @@ function f_fitness (indiv)
 //this function makes the tournament of the population
 function f_selection (population)
 {
+    //we are using roulette selection
     var total=0;
     var total_prom=0;
     var roulete=[];
     var new_population=[];
+<<<<<<< HEAD
 
     for(var index = 0; index<population.length;index++)
+=======
+    //suma of fitnesses
+    for(var index = 0; index<population.length;index++) 
+>>>>>>> e5cc988abefe428f13a79363635f5a0f3e07541c
     {total+=population[index].fitness;}
-
+    //averaage
     total_prom=total/population.length;
+<<<<<<< HEAD
 
     for(var index = 0; index<population.length;index++)
+=======
+    //we make the roulette
+    for(var index = 0; index<population.length;index++) 
+>>>>>>> e5cc988abefe428f13a79363635f5a0f3e07541c
     {roulete[index]=population[index].fitness/total_prom;}
-
+    //we chose the new members of the population
     for(var index = 0; index<population.length;index++)
     {
         var temp_rand = Math.floor(Math.random*(population.length+1));
@@ -171,7 +183,7 @@ function f_selection (population)
             {new_population[index]=population[pop_index];break;}
         }
     }
-
+    //return a new population
     return new_population;
 }
 
@@ -181,7 +193,7 @@ function f_crossover(population,crossover_rate)
     //crossover_rate must to be a value between 0 and 1
     //this array save the indexes of the parents selected from the population array
     var selected_parents = [];
-
+    //we make a list of indexes for the randomly selected parents from population
     for(var index=0;index<population.length;index++)
     {
         if(Math.random()>crossover_rate)
@@ -193,14 +205,22 @@ function f_crossover(population,crossover_rate)
 
     for(var index=0;index+1<selected_parents.length;index+=2)
     {
+<<<<<<< HEAD
         var child={data:[],fitness:0};
+=======
+        var child={data:[],fitness=0};
+        //temporal variables to save the parents, make the code more readable
+>>>>>>> e5cc988abefe428f13a79363635f5a0f3e07541c
         var frst_parent=population[selected_parents[index]];
         var scnd_parent=population[selected_parents[index+1]];
+        //apply the mask for copy the values from each parent
         for(var chrom_index=0;index<selected_parents.data[0].length;chrom_index++)
         {
             child.data[chrom_index]=(crossover_mask[chrom_index]?frst_parent.data[chrom_index]:scnd_parent.data[chrom_index]);
         }
+        // we avalue the cfittnes from the child
         fitness(child);
+        // we inser the child in place of the worst parent
         if(frst_parent.fitness>scnd_parent.fitness)
         {
             if(child.fitness>scnd_parent.fitness)
@@ -210,7 +230,7 @@ function f_crossover(population,crossover_rate)
             { population[selected_parents[index]]=child; }
         }
     }
-
+    //return a new population
     return population;
 }
 
@@ -223,6 +243,8 @@ function interchange(array,n_position,m_position)
 
 function f_mutation(population,mutation_rate)
 {
+    //makes this for every chromosome
+    //the mutaiton rate must to be a nomber between 0 and 1, and be a very low value
     for(var pop_index = 0; pop_index < population.length; pop_index++)
     {
         //partial shuffle mutation
@@ -230,9 +252,11 @@ function f_mutation(population,mutation_rate)
         {
             if(Math.random()<mutation_rate)
             {
+                //interchange a random value from the chromosome with the current pointed value
                 interchange(population[pop_index].data,chrome_index,Math.floor(Math.random()*chromosome_size+1));
             }
         }
     }
+    // return a new population
     return population;
 }
