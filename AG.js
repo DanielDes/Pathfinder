@@ -43,7 +43,7 @@ function newGA(_Selection,_Cross,_Mutation,_Init,_Fitness,_cross_rate,_mutation_
 	_temp_GA.Cross_rate 		= _cross_rate;
 	_temp_GA.Mutation_rate 		= _mutation_rate;
 	_temp_GA.PopulationSize 	= _population_size;
-	_temp_GA.CromosomeSize 		=_chromosome_size;
+	_temp_GA.CromosomeSize 		= _chromosome_size;
 
 	return _temp_GA;
 }
