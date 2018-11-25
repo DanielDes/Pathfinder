@@ -27,7 +27,6 @@ var wall_character;
 var map;
 var crossover_mask=[true,true,true,true,false,false,false,false];
 var is_mutation_init = false;
-var chromosomes_to_mutate=0;
 
 ////////////////////////////functions for the algorithm ////////////////////
 //this function initialize a chromosome
@@ -213,17 +212,25 @@ function f_crossover(population,crossover_rate)
     return population;
 }
 
+function interchange(array,n_position,m_position)
+{
+    var temp_element = array[m_position];
+    array[m_position]=array[n_position];
+    array[n_position]=temp_element;
+}
+
 function f_mutation(population,mutation_rate)
 {
-    //mutation raate must to be a number between 0 and 1  
-    if(!is_mutation_init)
+    for(var pop_index = 0; pop_index < population.length; pop_index++)
     {
-        chromosomes_to_mutate = Math.floor(mutation_rate*population.length*population[0].data.length);
+        //partial shuffle mutation
+        for(var chrome_index = 0; chrome_index<population[0].data.length;chrome_index++)
+        {
+            if(Math.random()<mutation_rate)
+            {
+                interchange(population[pop_index].data,chrome_index,Math.floor(Math.random()*chromosome_size+1));
+            }
+        }
     }
-
-    /*
-        code for mutate the chromosomes of the algorithm
-    */
-
     return population;
 }
