@@ -160,7 +160,7 @@ function f_selection (population)
     //averaage
     total_prom=total/population.length;
     //we make the roulette
-    for(var index = 0; index<population.length;index++) 
+    for(var index = 0; index<population.length;index++)
     {roulete[index]=population[index].fitness/total_prom;}
     //we chose the new members of the population
     for(var index = 0; index<population.length;index++)
@@ -196,12 +196,9 @@ function f_crossover(population,crossover_rate)
 
     for(var index=0;index+1<selected_parents.length;index+=2)
     {
-<<<<<<< HEAD
-        var child={data:[],fitness:0};
-=======
+
         var child={data:[],fitness=0};
         //temporal variables to save the parents, make the code more readable
->>>>>>> e5cc988abefe428f13a79363635f5a0f3e07541c
         var frst_parent=population[selected_parents[index]];
         var scnd_parent=population[selected_parents[index+1]];
         //apply the mask for copy the values from each parent
