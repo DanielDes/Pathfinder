@@ -153,23 +153,14 @@ function f_selection (population)
     var total_prom=0;
     var roulete=[];
     var new_population=[];
-<<<<<<< HEAD
 
-    for(var index = 0; index<population.length;index++)
-=======
     //suma of fitnesses
-    for(var index = 0; index<population.length;index++) 
->>>>>>> e5cc988abefe428f13a79363635f5a0f3e07541c
+    for(var index = 0; index<population.length;index++)
     {total+=population[index].fitness;}
     //averaage
     total_prom=total/population.length;
-<<<<<<< HEAD
-
-    for(var index = 0; index<population.length;index++)
-=======
     //we make the roulette
     for(var index = 0; index<population.length;index++) 
->>>>>>> e5cc988abefe428f13a79363635f5a0f3e07541c
     {roulete[index]=population[index].fitness/total_prom;}
     //we chose the new members of the population
     for(var index = 0; index<population.length;index++)
