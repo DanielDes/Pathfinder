@@ -10,7 +10,32 @@
 </head>
 <body>
 
+    <script>
+        var map = [
+            ['O','E','E','E','_','_','_','E'],
+            ['_','_','E','_','_','E','_','_'],
+            ['E','_','E','_','E','E','E','_'],
+            ['_','_','E','_','_','E','_','_'],
+            ['_','E','E','E','_','E','_','E'],
+            ['_','_','E','_','_','E','_','_'],
+            ['E','_','E','_','E','E','E','_'],
+            ['E','_','_','_','E','E','E','X']
+        ];
+        //in the function we pass the functions releated with our genetic algorithm 
+        //the numbers are crossover_rate,mutation_rate,population_size and chromosome_size
+        //chromosome size is defined on the file GA_function.js
+        var my_genetic_algorithm = newGA(f_selection,f_crossover,f_mutation,f_new_population,f_fitness,0.3,0.05,40,chromosome_size);
+        //we initialize a global values for the fitness function
+        //it let us to put every map what we want
+        init_fitness('O','X','E,',map); 
+        //this function evolves the population the number of generations we specify
+        //return the last generation evolved
+        var final_population = Evolve(my_genetic_algorithm,300);
 
+        /*
+            function to show the results
+        */
+    </script>
     
 </body>
 </html>
