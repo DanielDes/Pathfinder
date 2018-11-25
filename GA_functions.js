@@ -83,6 +83,7 @@ function f_fitness (indiv)
     {
         // obtain the movements of the first nibble (F0) from the chromosome
         // movement is a vector with length 3
+        // we follow the steps like simon says game, only if we not have a wall in the way
         if(!its_over)
         {
             movement = posible_directions[(indiv.data[chrom_index]&filter[1])>>>4];
@@ -145,19 +146,20 @@ function f_fitness (indiv)
 //this function makes the tournament of the population
 function f_selection (population)
 {
+    //we are using roulette selection
     var total=0;
     var total_prom=0;
     var roulete=[];
     var new_population=[];
-
+    //suma of fitnesses
     for(var index = 0; index<population.length;index++) 
     {total+=population[index].fitness;}
-
+    //averaage
     total_prom=total/population.length;
-
+    //we make the roulette
     for(var index = 0; index<population.length;index++) 
     {roulete[index]=population[index].fitness/total_prom;}
-
+    //we chose the new members of the population
     for(var index = 0; index<population.length;index++)
     {
         var temp_rand = Math.floor(Math.random*(population.length+1));
@@ -169,7 +171,7 @@ function f_selection (population)
             {new_population[index]=population[pop_index];break;}
         }
     }
-
+    //return a new population
     return new_population;
 }
 
