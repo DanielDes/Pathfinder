@@ -32,7 +32,7 @@ var is_mutation_init = false;
 //this function initialize a chromosome
 function new_chromosome(size)
 {
-    var temp_chromosome={data:[],fitness:0};
+    var temp_chromosome = {data:[],fitness:0};
     for(var index = 0;index<size;index++)
     {
         temp_chromosome.data[index]=Math.floor(256*Math.random());
@@ -50,7 +50,8 @@ function f_new_population(population,pop_size,chrom_size)
 //this function is needed for search a particular character in the map, the begin and the objetive
 function recognize_map(character)
 {
-    var temp_position={x=0,y=0}
+
+    var temp_position = {x:0,y:0};
     for(var row=0;row<map.length;row++)
     {
         for(var col=0;col<map[0].length;col++)
@@ -70,7 +71,7 @@ function init_fitness(character_init,character__end,_wall_character,_map)
     map = _map;
 }
 
-//this function evalue the fitness for a particular chromosome 
+//this function evalue the fitness for a particular chromosome
 function f_fitness (indiv)
 {
     var position = init_position;
@@ -79,6 +80,7 @@ function f_fitness (indiv)
     //means we find a path from the begining to the end
     var its_over = false;
     var fit=0;
+    console.log("Hola")
     for(var chrom_index = 0;chrom_index<indiv.data.length;chrom_index++)
     {
         // obtain the movements of the first nibble (F0) from the chromosome
@@ -150,12 +152,12 @@ function f_selection (population)
     var roulete=[];
     var new_population=[];
 
-    for(var index = 0; index<population.length;index++) 
+    for(var index = 0; index<population.length;index++)
     {total+=population[index].fitness;}
 
     total_prom=total/population.length;
 
-    for(var index = 0; index<population.length;index++) 
+    for(var index = 0; index<population.length;index++)
     {roulete[index]=population[index].fitness/total_prom;}
 
     for(var index = 0; index<population.length;index++)
@@ -177,7 +179,7 @@ function f_selection (population)
 function f_crossover(population,crossover_rate)
 {
     //crossover_rate must to be a value between 0 and 1
-    //this array save the indexes of the parents selected from the population array 
+    //this array save the indexes of the parents selected from the population array
     var selected_parents = [];
 
     for(var index=0;index<population.length;index++)
@@ -191,7 +193,7 @@ function f_crossover(population,crossover_rate)
 
     for(var index=0;index+1<selected_parents.length;index+=2)
     {
-        var child={data:[],fitness=0};
+        var child={data:[],fitness:0};
         var frst_parent=population[selected_parents[index]];
         var scnd_parent=population[selected_parents[index+1]];
         for(var chrom_index=0;index<selected_parents.data[0].length;chrom_index++)
@@ -200,7 +202,7 @@ function f_crossover(population,crossover_rate)
         }
         fitness(child);
         if(frst_parent.fitness>scnd_parent.fitness)
-        { 
+        {
             if(child.fitness>scnd_parent.fitness)
             { population[selected_parents[index+1]]=child; }
         }else{
