@@ -32,20 +32,43 @@
         <canvas id="canvas" width="300" height="300"></canvas>
         <script>
 
-        Player_x = Player_y = 10;//player
-        x_velocity = y_velocity = 0;//velocity
-        Grid_size= tile_count = 20;//grid size and tile count
-        Apple_x = Apple_y = 15;//apple
-        trail=[];//array with the chocks of the body, it's a stack
-        tail = 5;//counter for the number of the elements nd the body
 
          window.onload=function()
         {
             canv=document.getElementById("canvas");//get the canvas
             Context = canv.getContext("2d");//get the 2d context
-
+            Context.fillStyle="black";
             Context.fillRect( 0 , 0 , canv.width , canv.height ); // crea el background
+            var width = map[0].length;
+            var height = map.length;
+            var gridRect = {x: canv.width / width, y: canv.height/ height};
+            for (var yindex = 0; yindex < height; yindex ++)
+            {
+              var row = map[yindex];
+              for (var xindex = 0; xindex < width; xindex ++){
+                console.log(row[xindex]);
+                var xPosition = xindex * gridRect.x;
+                var yPosition = yindex * gridRect.y;
+                switch (row[xindex]) {
+                  case 'O':
+                      Context.fillStyle = "lime";
+                      Context.fillRect(xPosition,yPosition,gridRect.x,gridRect.y);
+                    break;
+                  case '_':
+                      Context.fillStyle = "black";
+                    break;
+                  case 'E':
+                      Context.fillStyle = "cyan";
+                    break;
+                  case 'X':
+                      Context.fillStyle = "red";
+                    break;
+                  default:
 
+                }
+                Context.fillRect(xPosition,yPosition,gridRect.x,gridRect.y);
+              }
+            }
         }
 
 
