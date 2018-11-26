@@ -7,6 +7,16 @@ const up_ = 0;
 const dwn = 1;
 const rgt = 2;
 const lft = 3;
+const map = [
+    ['O','E','E','E','_','_','_','E'],
+    ['_','_','E','_','_','E','_','_'],
+    ['E','_','E','_','E','E','E','_'],
+    ['_','_','E','_','_','E','_','_'],
+    ['_','E','E','E','_','E','_','E'],
+    ['_','_','E','_','_','E','_','_'],
+    ['E','_','E','_','E','E','E','_'],
+    ['E','_','_','_','E','E','E','X']
+];
 //the posible ways of a horse in chess
 /* rgt rgt dwn as a horse piece in chess
 *   O -> O -> O
@@ -24,7 +34,7 @@ const posible_directions=[
 var init_position;
 var end__position;
 var wall_character;
-var map;
+
 var crossover_mask=[true,true,true,true,false,false,false,false];
 var is_mutation_init = false;
 
@@ -62,15 +72,15 @@ function recognize_map(character)
 }
 
 //this function is needed for initialize the variables for the fitness function
-function init_fitness(character_init,character__end,_wall_character,_map)
+function init_fitness(character_init,character__end,_wall_character)
 {
     init_position=recognize_map(character_init,map);
     end__position=recognize_map(character__end,map);
     wall_character=_wall_character;
-    map = _map;
+
 }
 
-//this function evalue the fitness for a particular chromosome 
+//this function evalue the fitness for a particular chromosome
 function f_fitness (indiv)
 {
     var position = Object.assign({},init_position);
@@ -127,7 +137,7 @@ function f_fitness (indiv)
         if(!its_over)
         {
              //makes the same but with the second part of the nibble (0F)
-            movement = posible_directions[indiv.data[chrom_index]&filter[0]];            
+            movement = posible_directions[indiv.data[chrom_index]&filter[0]];
             for(var mov_index = 0; mov_index<movement.length;mov_index++)
             {
                 switch(movement[mov_index])
@@ -177,12 +187,12 @@ function f_selection (population)
     var roulete=[];
     var new_population=[];
     //suma of fitnesses
-    for(var index = 0; index<population.length;index++) 
+    for(var index = 0; index<population.length;index++)
     {total+=population[index].fitness;}
     //averaage
     total_prom=total/population.length;
     //we make the roulette
-    for(var index = 0; index<population.length;index++) 
+    for(var index = 0; index<population.length;index++)
     {roulete[index]=population[index].fitness/total_prom;}
     //we chose the new members of the population
     for(var index = 0; index<population.length;index++)
@@ -205,7 +215,7 @@ function f_crossover(population,crossover_rate)
 {
     var temp_population = population;
     //crossover_rate must to be a value between 0 and 1
-    //this array save the indexes of the parents selected from the temp_population array 
+    //this array save the indexes of the parents selected from the temp_population array
     var selected_parents = [];
     //we make a list of indexes for the randomly selected parents from temp_population
     for(var index=0;index<temp_population.length;index++)
@@ -232,7 +242,7 @@ function f_crossover(population,crossover_rate)
         fitness(child);
         // we inser the child in place of the worst parent
         if(frst_parent.fitness>scnd_parent.fitness)
-        { 
+        {
             if(child.fitness>scnd_parent.fitness)
             { temp_population[selected_parents[index+1]]=child; }
         }else{
@@ -262,11 +272,11 @@ function f_mutation(population,mutation_rate)
         {
             if(Math.random()<mutation_rate)
             {
-                 //interchange a random value from the chromosome with the current pointed value 
+                 //interchange a random value from the chromosome with the current pointed value
                 var temp_random = Math.floor(Math.random()*chromosome_size+1);
                 var temp_chromosome = population[pop_index].data[chrome_index];
                 population[pop_index].data[chrome_index]=population[pop_index].data[temp_random];
-                population[pop_index].data[temp_random]=temp_chromosome;  
+                population[pop_index].data[temp_random]=temp_chromosome;
             }
         }
     }

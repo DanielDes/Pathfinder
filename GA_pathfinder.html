@@ -7,28 +7,66 @@
     <script src="AG.js"></script>
     <script src="GA_functions.js"></script>
     <script src="auxiliar_functions.js"></script>
-    <title>Path finder</title>
+    <style>
+      .button {
+        min-width: 100px;
+        min-height: 30px;
+        background-color: #4CAF50;
+        display: inline-block;
+        font-size: 16px;
+        height: 50px;
+        width: 300px;
+      }
+    </style>
 </head>
 <body>
+  <title>Path finder</title>
+  <table style = "width:100%">
+    <tr style = "align:center">
+      <th>
+        <h1>Pathfinder</h1>
+      </th>
+    </tr>
+    <tr>
+      <th>
+        <canvas id="canvas" width="300" height="300"></canvas>
+        <script>
+
+        Player_x = Player_y = 10;//player
+        x_velocity = y_velocity = 0;//velocity
+        Grid_size= tile_count = 20;//grid size and tile count
+        Apple_x = Apple_y = 15;//apple
+        trail=[];//array with the chocks of the body, it's a stack
+        tail = 5;//counter for the number of the elements nd the body
+
+         window.onload=function()
+        {
+            canv=document.getElementById("canvas");//get the canvas
+            Context = canv.getContext("2d");//get the 2d context
+
+            Context.fillRect( 0 , 0 , canv.width , canv.height ); // crea el background
+
+        }
+
+
+        </script>
+      </th>
+    </tr>
+    <tr style = "align:center">
+      <th>
+        <button class="button"> Iniciar Cálculo </button>
+      </th>
+    </tr>
+  </table>
 
     <script>
-        var map = [
-            ['O','E','E','E','_','_','_','E'],
-            ['_','_','E','_','_','E','_','_'],
-            ['E','_','E','_','E','E','E','_'],
-            ['_','_','E','_','_','E','_','_'],
-            ['_','E','E','E','_','E','_','E'],
-            ['_','_','E','_','_','E','_','_'],
-            ['E','_','E','_','E','E','E','_'],
-            ['E','_','_','_','E','E','E','X']
-        ];
         //in the function we pass the functions releated with our genetic algorithm
         //the numbers are crossover_rate,mutation_rate,population_size and chromosome_size
         //chromosome size is defined on the file GA_function.js
         var my_genetic_algorithm = newGA(f_selection,f_crossover,f_mutation,f_new_population,f_fitness,0.3,0.05,20,chromosome_size);
         //we initialize a global values for the fitness function
         //it let us to put every map what we want
-        init_fitness('O','X','E',map);
+        init_fitness('O','X','E');
         //this function evolves the population the number of generations we specify
         //return the last generation evolved
         var final_population = Evolve(my_genetic_algorithm,1);
