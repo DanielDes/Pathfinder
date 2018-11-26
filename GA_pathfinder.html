@@ -33,11 +33,13 @@
         <script>
 
 
-         window.onload=function()
+         window.onload= drawCanvas();
+         function drawCanvas()
         {
             canv=document.getElementById("canvas");//get the canvas
             Context = canv.getContext("2d");//get the 2d context
             Context.fillStyle="black";
+            Context.clearRect(0,0,canv.width,canv.height);
             Context.fillRect( 0 , 0 , canv.width , canv.height ); // crea el background
             var width = map[0].length;
             var height = map.length;
@@ -46,7 +48,6 @@
             {
               var row = map[yindex];
               for (var xindex = 0; xindex < width; xindex ++){
-                console.log(row[xindex]);
                 var xPosition = xindex * gridRect.x;
                 var yPosition = yindex * gridRect.y;
                 switch (row[xindex]) {
@@ -69,6 +70,7 @@
                 Context.fillRect(xPosition,yPosition,gridRect.x,gridRect.y);
               }
             }
+            imageData = Context.getImageData(0,0,canv.width,canv.height)
         }
 
 
@@ -77,12 +79,17 @@
     </tr>
     <tr style = "align:center">
       <th>
-        <button class="button"> Iniciar Cálculo </button>
+        <button class="button" onclick="executeAlgorithm()"> Iniciar Cálculo </button>
+      </th>
+    </tr>
+    <tr>
+      <th>
+        <button class="button" type="button" name="Limpiar" onclick="clear()"> limpiar</button>
       </th>
     </tr>
   </table>
-
     <script>
+    function executeAlgorithm(){
         //in the function we pass the functions releated with our genetic algorithm
         //the numbers are crossover_rate,mutation_rate,population_size and chromosome_size
         //chromosome size is defined on the file GA_function.js
@@ -92,10 +99,51 @@
         init_fitness('O','X','E');
         //this function evolves the population the number of generations we specify
         //return the last generation evolved
-        var final_population = Evolve(my_genetic_algorithm,1);
-        console.log(final_population);
+        var final_population = Evolve(my_genetic_algorithm,50);
+
         var bestIndividue = checkBestResult(final_population);
         var path = checkPathOfIndivue(bestIndividue);
+
+        drawCanvas();
+        var canvas = document.getElementById("canvas");
+        var context = canvas.getContext("2d");
+
+        var width = map[0].length;
+        var height = map.length;
+        var gridRect = {x: canv.width / width, y: canv.height/ height};
+
+        context.moveTo(gridRect.x / 2, gridRect.y / 2);
+        var lastXPosition = gridRect.x / 2
+        var lastYPosition = gridRect.y / 2
+
+        path.forEach(function(step) {
+          switch (step) {
+            case rgt:
+              lastXPosition += gridRect.x
+              break;
+            case up_:
+              lastYPosition -= gridRect.y
+              break;
+            case dwn:
+              lastYPosition += gridRect.y
+              break;
+            case lft:
+              lastXPosition -= gridRect.x
+              break;
+            default:
+          }
+          context.lineTo(lastXPosition,lastYPosition);
+        });
+
+        context.lineWidth = 5;
+        context.strokeStyle = '#ff0000';
+        context.stroke();
+      }
+      function clear(){
+        var canvas = document.getElementById("canvas");
+        var context = canvas.getContext("2d");
+        context.clearRect(0,0,canvas.width.canvas.height);
+      }
     </script>
 
 </body>

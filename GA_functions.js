@@ -187,8 +187,12 @@ function f_selection (population)
     var roulete=[];
     var new_population=[];
     //suma of fitnesses
+
     for(var index = 0; index<population.length;index++)
-    {total+=population[index].fitness;}
+    {
+      console.log(index);
+      total+=population[index].fitness;
+    }
     //averaage
     total_prom=total/population.length;
     //we make the roulette

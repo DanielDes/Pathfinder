@@ -4,7 +4,7 @@ function checkBestResult(final_population)
 {
   var bestIndividue = {};
   var highestScore = 0;
-  console.log("Searching best result");
+
   final_population.forEach(function(individue){
     if (individue.fitness > highestScore){
         bestIndividue = individue
@@ -23,8 +23,7 @@ function checkPathOfIndivue(individue)
   steps.forEach(function(doubleNible){
     var firstSetOfMovements = posible_directions[doubleNible & filter[1] >>> 4];
     var secondSetOfMovements = posible_directions[doubleNible & filter[0]];
-    console.log(firstSetOfMovements);
-    console.log(secondSetOfMovements);
+
     firstSetOfMovements.forEach(function(step){
       path.push(step);
     })
