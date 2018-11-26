@@ -32,7 +32,7 @@ var is_mutation_init = false;
 //this function initialize a chromosome
 function new_chromosome(size)
 {
-    var temp_chromosome = {data:[],fitness:0};
+    var temp_chromosome={data:[],fitness:0};
     for(var index = 0;index<size;index++)
     {
         temp_chromosome.data[index]=Math.floor(256*Math.random());
@@ -50,8 +50,7 @@ function f_new_population(population,pop_size,chrom_size)
 //this function is needed for search a particular character in the map, the begin and the objetive
 function recognize_map(character)
 {
-
-    var temp_position = {x:0,y:0};
+    var temp_position={x:0,y:0}
     for(var row=0;row<map.length;row++)
     {
         for(var col=0;col<map[0].length;col++)
@@ -71,16 +70,16 @@ function init_fitness(character_init,character__end,_wall_character,_map)
     map = _map;
 }
 
-//this function evalue the fitness for a particular chromosome
+//this function evalue the fitness for a particular chromosome 
 function f_fitness (indiv)
 {
-    var position = init_position;
+    var position = Object.assign({},init_position);
     var movement;
     var movements_count=0;
     //means we find a path from the begining to the end
     var its_over = false;
     var fit=0;
-    console.log("Hola")
+    //console.log (typeof(wall_character));
     for(var chrom_index = 0;chrom_index<indiv.data.length;chrom_index++)
     {
         // obtain the movements of the first nibble (F0) from the chromosome
@@ -94,20 +93,32 @@ function f_fitness (indiv)
                 switch(movement[mov_index])
                 {
                     case up_:
-                        var up__element=map[position.x][position.y-1];
-                        if(up__element!=null && up__element!=wall_character){ position.y--; movements_count++; }
+                        if(position.y-1>0)
+                        {
+                            var temp_element=map[position.x][position.y-1];
+                            if(!Object.is(temp_element,wall_character)){ position.y--; movements_count++; }
+                        }
                     break;
                     case dwn:
-                        var dwn_element=map[position.x][position.y+1];
-                        if(dwn_element!=null && dwn_element!=wall_character){ position.y++; movements_count++; }
+                        if(position.y+1<map.length)
+                        {
+                            var temp_element=map[position.x][position.y+1];
+                            if(!Object.is(temp_element,wall_character)){ position.y++; movements_count++; }
+                        }
                     break;
                     case lft:
-                        var lft_element=map[position.x-1][position.y];
-                        if(lft_element!=null && lft_element!=wall_character){ position.x--; movements_count++; }
+                        if(position.x-1>0)
+                        {
+                            var temp_element=map[position.x-1][position.y];
+                            if(!Object.is(temp_element,wall_character)){ position.x--; movements_count++; }
+                        }
                     break;
                     case rgt:
-                        var rgt_element=map[position.x+1][position.y];
-                        if(rgt_element!=null && lft_element!=wall_character){ position.x++; movements_count++; }
+                        if(position.x+1<map[0].length)
+                        {
+                            var temp_element=map[position.x+1][position.y];
+                            if(!Object.is(temp_element,wall_character)){ position.x++; movements_count++; }
+                        }
                     break;
                 }
                 if(position.x==end__position.x && position.y==end__position.y) {its_over=true;}
@@ -116,33 +127,45 @@ function f_fitness (indiv)
         if(!its_over)
         {
              //makes the same but with the second part of the nibble (0F)
-            movement = posible_directions[indiv.data[chrom_index]&filter[0]];
+            movement = posible_directions[indiv.data[chrom_index]&filter[0]];            
             for(var mov_index = 0; mov_index<movement.length;mov_index++)
             {
                 switch(movement[mov_index])
                 {
                     case up_:
-                        var up__element=map[position.x][position.y-1];
-                        if(up__element!=null && up__element!=wall_character){ position.y--; movements_count++; }
+                        if(position.y-1>0)
+                        {
+                            var temp_element=map[position.x][position.y-1];
+                            if(!Object.is(temp_element,wall_character)){ position.y--; movements_count++; }
+                        }
                     break;
                     case dwn:
-                        var dwn_element=map[position.x][position.y+1];
-                        if(dwn_element!=null && dwn_element!=wall_character){ position.y++; movements_count++; }
+                        if(position.y+1<map.length)
+                        {
+                            var temp_element=map[position.x][position.y+1];
+                            if(!Object.is(temp_element,wall_character)){ position.y++; movements_count++; }
+                        }
                     break;
                     case lft:
-                        var lft_element=map[position.x-1][position.y];
-                        if(lft_element!=null && lft_element!=wall_character){ position.x--; movements_count++; }
+                        if(position.x-1>0)
+                        {
+                            var temp_element=map[position.x-1][position.y];
+                            if(!Object.is(temp_element,wall_character)){ position.x--; movements_count++; }
+                        }
                     break;
                     case rgt:
-                        var rgt_element=map[position.x+1][position.y];
-                        if(lft_element!=null && lft_element!=wall_character){ position.x++; movements_count++; }
+                        if(position.x+1<map[0].length)
+                        {
+                            var temp_element=map[position.x+1][position.y];
+                            if(!Object.is(temp_element,wall_character)){ position.x++; movements_count++; }
+                        }
                     break;
                 }
                 if(position.x==end__position.x && position.y==end__position.y) {its_over=true;}
             }
         }
     }
-    if(its_over){fit=movements_count+100;}else{fit=movements_count;}
+    if(its_over){fit=1000/movements_count+100;}else{fit=movements_count;}
     indiv.fitness=fit;
 }
 //this function makes the tournament of the population
@@ -153,32 +176,24 @@ function f_selection (population)
     var total_prom=0;
     var roulete=[];
     var new_population=[];
-    var numberOfElements = Object.keys(population).length
     //suma of fitnesses
-    for(var index = 0; index<numberOfElements;index++)
+    for(var index = 0; index<population.length;index++) 
     {total+=population[index].fitness;}
     //averaage
-    total_prom=total/numberOfElements;
+    total_prom=total/population.length;
     //we make the roulette
-    for(var index = 0; index<numberOfElements; index++)
+    for(var index = 0; index<population.length;index++) 
     {roulete[index]=population[index].fitness/total_prom;}
     //we chose the new members of the population
-    console.log(numberOfElements);
-    for(var index = 0; index<numberOfElements;index++)
+    for(var index = 0; index<population.length;index++)
     {
-        var temp_rand = Math.floor(Math.random*(numberOfElements+1));
-        console.log(temp_rand);
+        var temp_rand = Math.floor(Math.random()*(population.length+1));
         var roulete_acum=0;
-        for(var pop_index = 0;pop_index<numberOfElements;pop_index++)
+        for(var pop_index = 0;pop_index<population.length;pop_index++)
         {
             roulete_acum+=roulete[pop_index];
             if(roulete_acum>=temp_rand)
-            {
-              var newMember = population[pop_index];
-              console.log(newMember)
-              new_population.push(newMember);
-              break;
-            }
+            {new_population[index]=population[pop_index];break;}
         }
     }
     //return a new population
@@ -188,25 +203,26 @@ function f_selection (population)
 
 function f_crossover(population,crossover_rate)
 {
+    var temp_population = population;
     //crossover_rate must to be a value between 0 and 1
-    //this array save the indexes of the parents selected from the population array
+    //this array save the indexes of the parents selected from the temp_population array 
     var selected_parents = [];
-    //we make a list of indexes for the randomly selected parents from population
-    for(var index=0;index<population.length;index++)
+    //we make a list of indexes for the randomly selected parents from temp_population
+    for(var index=0;index<temp_population.length;index++)
     {
         if(Math.random()>crossover_rate)
         { selected_parents[selected_parents.length]=index; }
     }
 
     if(selected_parents.length%2!=0)//we ensure that we have pairs of parents
-    {selected_parents[selected_parents.length]=Math.floor(Math.random*(population.length+1));}
+    {selected_parents[selected_parents.length]=Math.floor(Math.random*(temp_population.length+1));}
 
     for(var index=0;index+1<selected_parents.length;index+=2)
     {
         var child={data:[],fitness:0};
         //temporal variables to save the parents, make the code more readable
-        var frst_parent=population[selected_parents[index]];
-        var scnd_parent=population[selected_parents[index+1]];
+        var frst_parent=temp_population[selected_parents[index]];
+        var scnd_parent=temp_population[selected_parents[index+1]];
         //apply the mask for copy the values from each parent
         for(var chrom_index=0;index<selected_parents.data[0].length;chrom_index++)
         {
@@ -216,16 +232,16 @@ function f_crossover(population,crossover_rate)
         fitness(child);
         // we inser the child in place of the worst parent
         if(frst_parent.fitness>scnd_parent.fitness)
-        {
+        { 
             if(child.fitness>scnd_parent.fitness)
-            { population[selected_parents[index+1]]=child; }
+            { temp_population[selected_parents[index+1]]=child; }
         }else{
             if(child.fitness>frst_parent.fitness)
-            { population[selected_parents[index]]=child; }
+            { temp_population[selected_parents[index]]=child; }
         }
     }
     //return a new population
-    return population;
+    return temp_population;
 }
 
 function interchange(array,n_position,m_position)
@@ -246,8 +262,11 @@ function f_mutation(population,mutation_rate)
         {
             if(Math.random()<mutation_rate)
             {
-                //interchange a random value from the chromosome with the current pointed value
-                interchange(population[pop_index].data,chrome_index,Math.floor(Math.random()*chromosome_size+1));
+                 //interchange a random value from the chromosome with the current pointed value 
+                var temp_random = Math.floor(Math.random()*chromosome_size+1);
+                var temp_chromosome = population[pop_index].data[chrome_index];
+                population[pop_index].data[chrome_index]=population[pop_index].data[temp_random];
+                population[pop_index].data[temp_random]=temp_chromosome;  
             }
         }
     }
