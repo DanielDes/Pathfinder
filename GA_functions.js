@@ -28,6 +28,7 @@ var map = [
     ['E','_','_','_','_','_','_','_'],
     ['E','E','E','E','E','E','E','X']
 ];
+
 //the posible ways of a horse in chess
 /* rgt rgt dwn as a horse piece in chess
 *   O -> O -> O
@@ -200,12 +201,12 @@ function f_selection (population)
     var new_population=[];
     //suma of fitnesses
 
-    for(var index = 0; index<population.length;index++) 
-    { 
+    for(var index = 0; index<population.length;index++)
+    {
         if(population[index]==undefined)
         {population[index]=new_chromosome(chromosome_size);
         f_fitness(population[index]);}
-        total+=population[index].fitness; 
+        total+=population[index].fitness;
     }
     //averaage
     total_prom=total/population.length;

@@ -11,11 +11,36 @@
       .button {
         min-width: 100px;
         min-height: 30px;
-        background-color: #4CAF50;
+        background-color: white;
         display: inline-block;
         font-size: 16px;
         height: 50px;
         width: 300px;
+        border-radius: 10px;
+        border-color: #4CAF50;
+        border-width: 3px;
+        outline: none;
+      }
+      .button:hover{
+        background-color: #4CAF50;
+      }
+      .input {
+        height: 50px;
+        width: 300px;
+        font-size: 16px;
+        text-align: center;
+
+      }
+      .steps{
+        padding-left: 10px;
+        padding-right: 10px;
+        padding-top: 5px;
+        padding-bottom: 5px;
+        word-wrap: normal;,
+        word-break: normal;
+        border-style: solid;
+        border-width: 1px;
+        border-radius: 10px;
       }
     </style>
 </head>
@@ -77,18 +102,42 @@
         </script>
       </th>
     </tr>
+    <tr>
+      <th>
+        <label>Número de generaciones</label>
+      </th>
+    </tr>
+    <tr>
+      <th>
+        <input type="text" name="numberGenerations" value="20" class="input" id="input">
+      </th>
+    </tr>
     <tr align="center">
       <th>
         <button class="button" onclick="executeAlgorithm()"> Iniciar Cálculo </button>
       </th>
     </tr>
     <tr>
-      <th>
-        <button class="button" type="button" name="Limpiar" onclick="clear()"> limpiar</button>
+      <th class="steps" id="resultSection">
+        <label id="results"></label>
+        <br>
+        <label id="pathSequence"></label>
       </th>
+    </tr>
+    <tr>
+      <th style="padding-top: 20px">
+        <label>Created by</label>
+        <br>
+        <label>Aguilar Moreira David Uriel</label>
+        <br>
+        <label>De San Pedro Vázquez Luis Daniel</label>
+
+      </th>
+
     </tr>
   </table>
     <script>
+    document.getElementById("resultSection").style.display = "none";
     function executeAlgorithm(){
         //in the function we pass the functions releated with our genetic algorithm
         //the numbers are crossover_rate,mutation_rate,population_size and chromosome_size
@@ -99,14 +148,41 @@
         init_fitness('O','X','E');
         //this function evolves the population the number of generations we specify
         //return the last generation evolved
-        var final_population = Evolve(my_genetic_algorithm,50);
-
+        var answer = document.getElementById("input").value;
+        console.log(answer);
+        var numberGenerations = parseInt(answer,10);
+        var final_population = Evolve(my_genetic_algorithm,numberGenerations);
+        document.getElementById("resultSection").style.display = "block";
         var bestIndividue = checkBestResult(final_population);
         path = checkPathOfIndivue(bestIndividue);
 
         drawCanvas();
         drawPath();
+        var steps = translatePathIntoText();
+        document.getElementById("results").innerHTML = "Best result: ";
+        document.getElementById("pathSequence").innerHTML = steps;
         // drawPath();
+      }
+      function translatePathIntoText(){;
+        var stepsSequence = []
+        path.forEach(function(step) {
+          switch (step) {
+            case rgt:
+              stepsSequence.push("Right");
+              break;
+            case up_:
+              stepsSequence.push("Up");
+              break;
+            case dwn:
+              stepsSequence.push("Down");
+              break;
+            case lft:
+              stepsSequence.push("Left");
+              break;
+            default:
+          }
+        });
+        return stepsSequence;
       }
       function drawPath()
       {
@@ -117,12 +193,14 @@
         var height = map.length;
         var gridRect = {x: canv.width / width, y: canv.height/ height};
 
-        context.moveTo(gridRect.x / 2, gridRect.y / 2);
+
         var lastXPosition = gridRect.x / 2
         var lastYPosition = gridRect.y / 2
         context.lineWidth = 5;
         context.strokeStyle = '#ff0000';
         console.log(path);
+        context.beginPath();
+        context.moveTo(gridRect.x / 2, gridRect.y / 2);
         path.forEach(function(step) {
           switch (step) {
             case rgt:
@@ -148,11 +226,6 @@
         context.restore();
 
 
-      }
-      function clear(){
-        var canvas = document.getElementById("canvas");
-        var context = canvas.getContext("2d");
-        context.clearRect(0,0,canvas.width.canvas.height);
       }
     </script>
 
