@@ -28,28 +28,28 @@ function checkPathOfIndivue(individue)
     firstSetOfMovements.forEach(function(step){
       switch(step)
       {
-        case up_:
+        case lft:
             if(position.y-1>=0)
             {
                 var temp_element=map[position.x][position.y-1];
                 if(!Object.is(temp_element,wall_character)){ position.y--; path.push(step);}
             }
         break;
-        case dwn:
+        case rgt:
             if(position.y+1<map.length)
             {
                 var temp_element=map[position.x][position.y+1];
                 if(!Object.is(temp_element,wall_character)){ position.y++; path.push(step); }
             }
         break;
-        case lft:
+        case up_:
             if(position.x-1>=0)
             {
                 var temp_element=map[position.x-1][position.y];
                 if(!Object.is(temp_element,wall_character)){ position.x--; path.push(step); }
             }
         break;
-        case rgt:
+        case dwn:
             if(position.x+1<map[0].length)
             {
                 var temp_element=map[position.x+1][position.y];
@@ -61,28 +61,28 @@ function checkPathOfIndivue(individue)
     secondSetOfMovements.forEach(function(step){
       switch(step)
       {
-        case up_:
+        case lft:
             if(position.y-1>=0)
             {
                 var temp_element=map[position.x][position.y-1];
                 if(!Object.is(temp_element,wall_character)){ position.y--; path.push(step);}
             }
         break;
-        case dwn:
+        case rgt:
             if(position.y+1<map.length)
             {
                 var temp_element=map[position.x][position.y+1];
                 if(!Object.is(temp_element,wall_character)){ position.y++; path.push(step); }
             }
         break;
-        case lft:
+        case up_:
             if(position.x-1>=0)
             {
                 var temp_element=map[position.x-1][position.y];
                 if(!Object.is(temp_element,wall_character)){ position.x--; path.push(step); }
             }
         break;
-        case rgt:
+        case dwn:
             if(position.x+1<map[0].length)
             {
                 var temp_element=map[position.x+1][position.y];
