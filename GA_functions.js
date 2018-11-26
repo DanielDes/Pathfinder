@@ -153,25 +153,32 @@ function f_selection (population)
     var total_prom=0;
     var roulete=[];
     var new_population=[];
-
+    var numberOfElements = Object.keys(population).length
     //suma of fitnesses
-    for(var index = 0; index<population.length;index++)
+    for(var index = 0; index<numberOfElements;index++)
     {total+=population[index].fitness;}
     //averaage
-    total_prom=total/population.length;
+    total_prom=total/numberOfElements;
     //we make the roulette
-    for(var index = 0; index<population.length;index++)
+    for(var index = 0; index<numberOfElements; index++)
     {roulete[index]=population[index].fitness/total_prom;}
     //we chose the new members of the population
-    for(var index = 0; index<population.length;index++)
+    console.log(numberOfElements);
+    for(var index = 0; index<numberOfElements;index++)
     {
-        var temp_rand = Math.floor(Math.random*(population.length+1));
+        var temp_rand = Math.floor(Math.random*(numberOfElements+1));
+        console.log(temp_rand);
         var roulete_acum=0;
-        for(var pop_index = 0;pop_index<population.length;pop_index++)
+        for(var pop_index = 0;pop_index<numberOfElements;pop_index++)
         {
             roulete_acum+=roulete[pop_index];
             if(roulete_acum>=temp_rand)
-            {new_population[index]=population[pop_index];break;}
+            {
+              var newMember = population[pop_index];
+              console.log(newMember)
+              new_population.push(newMember);
+              break;
+            }
         }
     }
     //return a new population
@@ -196,7 +203,6 @@ function f_crossover(population,crossover_rate)
 
     for(var index=0;index+1<selected_parents.length;index+=2)
     {
-
         var child={data:[],fitness:0};
         //temporal variables to save the parents, make the code more readable
         var frst_parent=population[selected_parents[index]];
