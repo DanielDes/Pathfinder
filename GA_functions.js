@@ -21,9 +21,9 @@ var map = [
     ['O','_','E','E','E','E','E','E'],
     ['E','_','_','_','_','_','_','E'],
     ['E','_','_','_','_','_','_','E'],
-    ['E','_','_','E','E','_','_','E'],
-    ['E','_','_','E','E','_','_','E'],
-    ['E','_','_','_','_','_','_','E'],
+    ['E','_','_','_','E','E','_','E'],
+    ['E','_','E','_','_','E','_','E'],
+    ['E','_','E','E','_','_','_','E'],
     ['E','_','_','_','_','_','_','E'],
     ['E','_','_','_','_','_','_','_'],
     ['E','E','E','E','E','E','E','X']
@@ -46,7 +46,7 @@ const posible_directions=[
 var init_position;
 var end__position;
 var wall_character;
-
+var map_transpose;
 var crossover_mask=[true,true,true,true,false,false,false,false];
 var is_mutation_init = false;
 
@@ -82,14 +82,14 @@ function recognize_map(character)
     }
     return temp_position;
 }
-
 //this function is needed for initialize the variables for the fitness function
 function init_fitness(character_init,character__end,_wall_character)
 {
     init_position=recognize_map(character_init,map);
     end__position=recognize_map(character__end,map);
     wall_character=_wall_character;
-
+    map_transpose=[];
+    
 }
 
 //this function evalue the fitness for a particular chromosome
@@ -115,7 +115,7 @@ function f_fitness (indiv)
                 switch(movement[mov_index])
                 {
                     case up_:
-                        if(position.y-1>0)
+                        if(position.y-1>=0)
                         {
                             var temp_element=map[position.x][position.y-1];
                             if(!Object.is(temp_element,wall_character)){ position.y--; movements_count++; }
@@ -129,7 +129,7 @@ function f_fitness (indiv)
                         }
                     break;
                     case lft:
-                        if(position.x-1>0)
+                        if(position.x-1>=0)
                         {
                             var temp_element=map[position.x-1][position.y];
                             if(!Object.is(temp_element,wall_character)){ position.x--; movements_count++; }
@@ -155,7 +155,7 @@ function f_fitness (indiv)
                 switch(movement[mov_index])
                 {
                     case up_:
-                        if(position.y-1>0)
+                        if(position.y-1>=0)
                         {
                             var temp_element=map[position.x][position.y-1];
                             if(!Object.is(temp_element,wall_character)){ position.y--; movements_count++; }
@@ -169,7 +169,7 @@ function f_fitness (indiv)
                         }
                     break;
                     case lft:
-                        if(position.x-1>0)
+                        if(position.x-1>=0)
                         {
                             var temp_element=map[position.x-1][position.y];
                             if(!Object.is(temp_element,wall_character)){ position.x--; movements_count++; }
