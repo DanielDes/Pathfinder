@@ -7,7 +7,7 @@ const up_ = 0;
 const dwn = 1;
 const rgt = 2;
 const lft = 3;
-const map = [
+/* const map = [
     ['O','E','E','E','_','_','_','E'],
     ['_','_','E','_','_','E','_','_'],
     ['E','_','E','_','E','E','E','_'],
@@ -16,6 +16,17 @@ const map = [
     ['_','_','E','_','_','E','_','_'],
     ['E','_','E','_','E','E','E','_'],
     ['E','_','_','_','E','E','E','X']
+]; */
+var map = [
+    ['O','_','E','E','E','E','E','E'],
+    ['E','_','_','_','_','_','_','E'],
+    ['E','_','_','_','_','_','_','E'],
+    ['E','_','_','E','E','_','_','E'],
+    ['E','_','_','E','E','_','_','E'],
+    ['E','_','_','_','_','_','_','E'],
+    ['E','_','_','_','_','_','_','E'],
+    ['E','_','_','_','_','_','_','_'],
+    ['E','E','E','E','E','E','E','X']
 ];
 //the posible ways of a horse in chess
 /* rgt rgt dwn as a horse piece in chess
@@ -175,7 +186,8 @@ function f_fitness (indiv)
             }
         }
     }
-    if(its_over){fit=1000/movements_count+100;}else{fit=movements_count;}
+    var distance =Math.sqrt(Math.pow(end__position.x-position.x,2)+Math.pow(end__position.y-position.y,2));
+    if(its_over){fit=1000000-movements_count;}else{fit=Math.floor(Math.pow(100/(1+distance),2));}
     indiv.fitness=fit;
 }
 //this function makes the tournament of the population
@@ -188,10 +200,12 @@ function f_selection (population)
     var new_population=[];
     //suma of fitnesses
 
-    for(var index = 0; index<population.length;index++)
-    {
-      console.log(index);
-      total+=population[index].fitness;
+    for(var index = 0; index<population.length;index++) 
+    { 
+        if(population[index]==undefined)
+        {population[index]=new_chromosome(chromosome_size);
+        f_fitness(population[index]);}
+        total+=population[index].fitness; 
     }
     //averaage
     total_prom=total/population.length;
@@ -271,6 +285,11 @@ function f_mutation(population,mutation_rate)
     //the mutaiton rate must to be a nomber between 0 and 1, and be a very low value
     for(var pop_index = 0; pop_index < population.length; pop_index++)
     {
+        if(population[pop_index]==undefined)
+        {
+            population[pop_index]=new_chromosome(chromosome_size);
+            f_fitness(population[pop_index]);
+        }
         //partial shuffle mutation
         for(var chrome_index = 0; chrome_index<population[0].data.length;chrome_index++)
         {
