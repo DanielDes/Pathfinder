@@ -122,6 +122,7 @@
         var lastYPosition = gridRect.y / 2
         context.lineWidth = 5;
         context.strokeStyle = '#ff0000';
+        console.log(path);
         path.forEach(function(step) {
           switch (step) {
             case rgt:
@@ -139,10 +140,12 @@
             default:
           }
           context.lineTo(lastXPosition,lastYPosition);
-          context.stroke();
-          context.restore();
-        });
 
+        });
+        context.strokeStyle = 'yellow';
+        context.arc(lastXPosition,lastYPosition,5,0,2*Math.PI)
+        context.stroke();
+        context.restore();
 
 
       }
