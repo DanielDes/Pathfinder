@@ -1,3 +1,5 @@
+
+//This function simply search for the best individue acordding to its fitness score
 function checkBestResult(final_population)
 {
   var bestIndividue = {};
@@ -13,6 +15,7 @@ function checkBestResult(final_population)
   return bestIndividue
 }
 
+//This funciton simply gets the hole path that a given indivue followed
 function checkPathOfIndivue(individue)
 {
   var path = [];
@@ -30,4 +33,5 @@ function checkPathOfIndivue(individue)
     })
   })
   console.log(path);
+  return path;
 }
