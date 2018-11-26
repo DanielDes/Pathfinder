@@ -102,9 +102,14 @@
         var final_population = Evolve(my_genetic_algorithm,50);
 
         var bestIndividue = checkBestResult(final_population);
-        var path = checkPathOfIndivue(bestIndividue);
+        path = checkPathOfIndivue(bestIndividue);
 
         drawCanvas();
+        drawPath();
+        // drawPath();
+      }
+      function drawPath()
+      {
         var canvas = document.getElementById("canvas");
         var context = canvas.getContext("2d");
 
@@ -115,7 +120,8 @@
         context.moveTo(gridRect.x / 2, gridRect.y / 2);
         var lastXPosition = gridRect.x / 2
         var lastYPosition = gridRect.y / 2
-
+        context.lineWidth = 5;
+        context.strokeStyle = '#ff0000';
         path.forEach(function(step) {
           switch (step) {
             case rgt:
@@ -133,11 +139,12 @@
             default:
           }
           context.lineTo(lastXPosition,lastYPosition);
+          context.stroke();
+          context.restore();
         });
 
-        context.lineWidth = 5;
-        context.strokeStyle = '#ff0000';
-        context.stroke();
+
+
       }
       function clear(){
         var canvas = document.getElementById("canvas");
